@@ -6,10 +6,12 @@ import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { User, Album } from '../types/data.tsx'
 
+
 const Home: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [expandedUserId, setExpandedUserId] = useState<number | null>(null);
     const navigation = useNavigation();
+    const [deletedAlbums, setDeletedAlbums] = useState<number[]>([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -20,7 +22,7 @@ const Home: React.FC = () => {
                     const resultado = await Promise.all(albumUsers.map(async (user: User, index: number) => {
                         try {
                             const responseAlbum = await axios.get(`https://jsonplaceholder.typicode.com/albums?userId=${user.id}`);
-                            const albumsData: any[] = responseAlbum.data; // Aquí asumimos que response.data es una matriz de objetos
+                            const albumsData: any[] = responseAlbum.data;
                             const albums: Album[] = albumsData.map((album: any) => ({
                                 id: album.id,
                                 title: album.title,
@@ -58,8 +60,8 @@ const Home: React.FC = () => {
         navigation.navigate('AlbumImages', { data: album })
     }
 
-    const click2 = () => {
-        console.log("Hi2")
+    const deleteAlbum = (albumId: number) => {
+        setDeletedAlbums(prevDeleted => [...prevDeleted, albumId]);
     }
 
     const renderUser = ({ item }: { item: User }) => (
@@ -71,12 +73,12 @@ const Home: React.FC = () => {
             {expandedUserId === item.id && item.albums && (
                 <View style={styles.albumContainer}>
                     <FlatList
-                        data={item.albums}
+                        data={item.albums.filter(album => !deletedAlbums.includes(album.id))}
                         keyExtractor={album => album.id.toString()}
                         renderItem={({ item: album }) => (
                             <TouchableOpacity onPress={()=> onAlbumSelected(album)} style={styles.itemContainer}>
                                 <Text style={styles.nameText}>{album.title}</Text>
-                                <TouchableOpacity onPress={()=> click2()} style={styles.btnDelete}>
+                                <TouchableOpacity onPress={()=> deleteAlbum(album.id)} style={styles.btnDelete}>
                                     <Text style={styles.txtBtnDelete}>Delete</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>

@@ -6,7 +6,7 @@ interface SmallActionButtonProps {
   isLoading?: boolean;
   style?: ViewStyle;
   action?: () => void;
-  icon?: any; // Cambia el tipo 'any' al tipo correcto si conoces el tipo de datos de la imagen
+  icon?: any;
   iconStyle?: ImageStyle;
   label?: string;
   labelStyle?: TextStyle;

@@ -63,7 +63,7 @@ const AlbumImages: React.FC = () => {
                 data={images}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
-                numColumns={3} // Mostrar 3 imágenes por fila
+                numColumns={3}
                 contentContainerStyle={styles.container}
                 style={{marginBottom: 70}}
             />

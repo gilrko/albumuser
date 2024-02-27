@@ -17,3 +17,9 @@ export interface Img {
     url: string,
     thumbnailUrl: string
 }
+
+export interface AppState {
+    users: User[];
+    albums: Album[];
+    deletedAlbums: string[];
+  }

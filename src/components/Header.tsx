@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
-import SmallActionButton from './SmallActionButton'; // Asegúrate de importar correctamente el componente SmallActionButton
+import SmallActionButton from './SmallActionButton';
 
 const windowHeight = Dimensions.get('window').height;
 

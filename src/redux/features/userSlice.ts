@@ -1,26 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../redux/store.ts';
+import { User, Album } from '../../types/data';
 
-interface UserState {
-  users: string[];
+interface AlbumState {
+  users: User[];
+  albums: Album[];
+  deletedAlbums: string[];
 }
 
-const initialState: UserState = {
+const initialState: AlbumState = {
   users: [],
+  albums: [],
+  deletedAlbums: [],
 };
 
-export const userSlice = createSlice({
-  name: 'user',
+const albumSlice = createSlice({
+  name: 'albums',
   initialState,
   reducers: {
-    addUser: (state, action: PayloadAction<string>) => {
-      state.users.push(action.payload);
+    setUsers(state, action: PayloadAction<User[]>) {
+      state.users = action.payload;
+    },
+    setAlbums(state, action: PayloadAction<Album[]>) {
+      state.albums = action.payload;
+    },
+    deleteAlbum(state, action: PayloadAction<string>) {
+      state.deletedAlbums.push(action.payload);
     },
   },
 });
 
-export const { addUser } = userSlice.actions;
-
-export const selectUsers = (state: RootState) => state.user.users;
-
-export default userSlice.reducer;
+export const { setUsers, setAlbums, deleteAlbum } = albumSlice.actions;
+export default albumSlice.reducer;
